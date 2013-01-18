@@ -61,7 +61,39 @@ namespace deteksiwajah
             KameraImageBox.Image = FrameGambar.Resize(320, 240, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, true);
         }
 
-        private void btnMulai_Click(object sender, EventArgs e)
+       /* 
+       private void btnMulai_Click(object sender, EventArgs e)
+        {
+            if (tangkap == null)
+            {
+                try
+                {
+                    tangkap = new Capture();
+                }
+                catch (NullReferenceException excpt)
+                {
+                    MessageBox.Show(excpt.Message);
+                }
+            }
+
+
+            if (tangkap != null)
+            {
+                if (btnKamera.Text=="Berhenti")
+                {
+                    btnKamera.Text = "Mulai";
+                    Application.Idle -= ProsesMenangkapFrame;
+                }
+                else
+                {
+                    btnKamera.Text = "Berhenti";
+                    Application.Idle += ProsesMenangkapFrame;
+                }
+            }
+        }
+        */
+        
+        private void btnKamera_Click(object sender, EventArgs e)
         {
             if (tangkap == null)
             {
@@ -90,20 +122,48 @@ namespace deteksiwajah
                 }
             }
         }
-        
-        //diskonek kamera
-        private void ReleaseData()
-        {
-            if (tangkap != null)
-                tangkap.Dispose();
-        }
 
+        private void MendeteksiWajah()
+        {
+            //menyimpan frame gambar yang ditangkap kamera ke imageframe
+            Image<Gray, byte> framegrayscale = FrameGambar.Convert<Gray, byte>();
+            //mendeteksi wajah dari gray-scale image dan menyimpan ke dalam array wajah
+            var wajah = framegrayscale.DetectHaarCascade(haar, 1.1, 2,
+                                    HAAR_DETECTION_TYPE.DO_CANNY_PRUNING,
+                                    new Size(25, 25))[0];
+            //menandai kotak biru pada wajah yang dideteksi dari gambar
+            foreach (var wajah2 in wajah)
+            {
+                FrameGambar.Draw(wajah2.rect, new Bgr(Color.Blue), 3);
+            }
+            //menampilkan gambar ke kameraimagebox
+            KameraImageBox.Image = FrameGambar;
+        }
+        
         private void DeteksiWajah_Load(object sender, EventArgs e)
         {
             //mencari xml yang akan digunakan
             haar = new HaarCascade("haarcascade_frontalface_alt_tree.xml");
         }
         
+        private void btnGambar_Click(object sender, EventArgs e)
+        {
+            //mengambil data gambar dari direktori untuk di deteksi wajah
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Image InputGambar = Image.FromFile(openFileDialog.FileName);
+                FrameGambar = new Image<Bgr, byte>(new Bitmap(InputGambar));
+                KameraImageBox.Image = FrameGambar;
+                MendeteksiWajah();
+            }
+        }
+        
+        //diskonek kamera
+        private void ReleaseData()
+        {
+            if (tangkap != null)
+                tangkap.Dispose();
+        }    
     }
 }    
         
