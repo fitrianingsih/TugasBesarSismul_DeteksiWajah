@@ -61,6 +61,16 @@
             this.btnKamera.UseVisualStyleBackColor = true;
             this.btnKamera.Click += new System.EventHandler(this.btnMulai_Click);
             // 
+            // btnGambar
+            // 
+            this.btnGambar.Location = new System.Drawing.Point(11, 385);
+            this.btnGambar.Name = "btnGambar";
+            this.btnGambar.Size = new System.Drawing.Size(107, 35);
+            this.btnGambar.TabIndex = 9;
+            this.btnGambar.Text = "Pilih Gambar";
+            this.btnGambar.UseVisualStyleBackColor = true;
+            this.btnGambar.Click += new System.EventHandler(this.btnGambar_Click);
+            // 
             // DeteksiWajah
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
