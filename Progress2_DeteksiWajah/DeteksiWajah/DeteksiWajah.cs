@@ -55,6 +55,8 @@ namespace deteksiwajah
                     FrameGambar.Draw(wajah2.rect, new Bgr(Color.Blue),3);
                 }
             }
+            //menyimpan gambar ke direktori C:\
+            FrameGambar.Save(@"C:\HasilFoto.jpg")
             //menampilkan gambar pada EmguCV ImageBox
             KameraImageBox.Image = FrameGambar.Resize(320, 240, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR, true);
         }
@@ -76,14 +78,14 @@ namespace deteksiwajah
 
             if (tangkap != null)
             {
-                if (btnKamera.Text=="Berhenti")
+                if (btnKamera.Text=="Berhenti Kamera")
                 {
-                    btnKamera.Text = "Mulai";
+                    btnKamera.Text = "Mulai Kamera";
                     Application.Idle -= ProsesMenangkapFrame;
                 }
                 else
                 {
-                    btnKamera.Text = "Berhenti";
+                    btnKamera.Text = "Berhenti Kamera";
                     Application.Idle += ProsesMenangkapFrame;
                 }
             }
